@@ -1,0 +1,183 @@
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion 27
+    defaultConfig {
+        applicationId "com.example.chenweiming.mypanelapplication"
+        minSdkVersion 21
+        targetSdkVersion 27
+        versionCode 1
+        versionName "1.0"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+ext {
+    android_support_version = '27.1.0'
+    okhttp_version = '3.9.0'
+    retrofit_version = '2.3.0'
+    rxjava_version = '2.1.6'
+    rxandroid_version = '2.0.1'
+    rxbinding_version = '2.0.0'
+    rxrelay_version = '2.0.0'
+    rxlifecycle_version = '2.1.0'
+    dagger_version = '2.15'
+    ButterKnifeVersion = '8.8.1'
+    viewmodel_version = '1.1.1'
+    mockitoVersion = '1.10.19'
+    hamcrestVersion = '1.3'
+}
+
+configurations.all() {
+    exclude group: "org.apache.httpcomponents", module: "httpclient"
+    resolutionStrategy.force "com.android.support:support-annotations:${android_support_version}"
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation "com.android.support:support-v4:${android_support_version}"
+    implementation "com.android.support:appcompat-v7:${android_support_version}"
+    implementation "com.android.support:recyclerview-v7:${android_support_version}"
+    implementation "com.android.support:design:${android_support_version}"
+    implementation "com.android.support:support-core-ui:${android_support_version}"
+    implementation "com.android.support:exifinterface:${android_support_version}"
+    implementation "com.android.support:cardview-v7:${android_support_version}"
+    implementation "com.android.support:customtabs:${android_support_version}"
+    implementation 'com.android.support.constraint:constraint-layout:1.0.2'
+
+    implementation "com.google.android.gms:play-services-analytics:15.0.2"
+    implementation "com.google.android.gms:play-services-auth:15.0.1"
+    implementation "com.google.android.gms:play-services-plus:15.0.1"
+    implementation "com.google.android.gms:play-services-ads:15.0.1"
+    // evernote required gcm dependency, DO NOT remove
+    implementation "com.google.android.gms:play-services-gcm:15.0.1"
+
+    // firebase
+    implementation "com.google.firebase:firebase-core:15.0.2"
+    implementation "com.google.firebase:firebase-messaging:15.0.2"
+    implementation "com.google.firebase:firebase-config:15.0.2"
+    implementation "com.google.firebase:firebase-invites:15.0.1"
+    implementation "com.google.firebase:firebase-ads:15.0.0"
+    // firebase chatroom
+    implementation "com.google.firebase:firebase-database:15.0.0"
+    // firebase-auth in 15.1.0 has NPE bug,
+    // see https://stackoverflow.com/questions/50265988
+    implementation "com.google.firebase:firebase-auth:15.0.0"
+    implementation 'com.firebaseui:firebase-ui-database:3.3.1'
+
+    // Dual cache
+    implementation 'com.vincentbrison.openlibraries.android:dualcache:3.1.1'
+    implementation 'com.vincentbrison.openlibraries.android:dualcache-jsonserializer:3.1.1'
+
+    // Event Bus
+    implementation 'de.greenrobot:eventbus:2.2.1'
+
+    // Retrofit
+    implementation "com.squareup.retrofit2:retrofit:${retrofit_version}"
+    implementation "com.squareup.retrofit2:converter-gson:${retrofit_version}"
+    // Retrofit with RxJava
+    implementation "com.squareup.retrofit2:adapter-rxjava2:${retrofit_version}"
+
+    // Okhttp
+    implementation "com.squareup.okhttp3:okhttp:${okhttp_version}"
+    implementation "com.squareup.okhttp3:okhttp-urlconnection:${okhttp_version}"
+    implementation "com.squareup.okhttp3:logging-interceptor:${okhttp_version}"
+
+    // RxJava
+    implementation "io.reactivex.rxjava2:rxjava:${rxjava_version}"
+    implementation "io.reactivex.rxjava2:rxandroid:${rxandroid_version}"
+
+    // RxBinding
+    implementation "com.jakewharton.rxbinding2:rxbinding:${rxbinding_version}"
+
+    // RxRelay - for RxBus
+    implementation "com.jakewharton.rxrelay2:rxrelay:${rxrelay_version}"
+
+    implementation 'com.github.memoizr:retro-optional:0.2.0'
+
+    // Dagger 2 - dependency injection
+    def daggerCompiler = "com.google.dagger:dagger-compiler:$dagger_version"
+    implementation "com.google.dagger:dagger:$dagger_version"
+    annotationProcessor daggerCompiler
+    testAnnotationProcessor daggerCompiler
+    androidTestAnnotationProcessor daggerCompiler
+
+    implementation "com.google.dagger:dagger-android:$dagger_version"
+    implementation "com.google.dagger:dagger-android-support:$dagger_version"
+    annotationProcessor "com.google.dagger:dagger-android-processor:$dagger_version"
+
+    // ButterKnife - view binding
+    implementation "com.jakewharton:butterknife:$ButterKnifeVersion"
+    annotationProcessor "com.jakewharton:butterknife-compiler:$ButterKnifeVersion"
+
+    implementation 'com.android.support:multidex:1.0.1'
+
+    // SlidingUpPanel
+    implementation('com.sothree.slidinguppanel:library:3.4.0')
+
+    implementation 'com.facebook.android:facebook-android-sdk:4.27.0'
+    implementation 'com.twitter.sdk.android:twitter-core:3.1.1'
+
+    // in-app push campaign
+    implementation 'com.facebook.android:notifications:1.0.2'
+
+    implementation 'com.googlecode.javacpp:javacpp:0.7'
+
+    // for get permission animation
+    implementation 'com.nineoldandroids:library:2.4.0'
+
+    // image management library
+    implementation 'com.github.bumptech.glide:glide:3.7.0'
+    implementation 'com.facebook.fresco:fresco:1.3.0'
+    implementation "com.facebook.fresco:imagepipeline-okhttp3:1.3.0"
+    implementation 'com.facebook.fresco:animated-gif:1.3.0'
+    implementation 'me.relex:photodraweeview:1.1.3'
+
+    // For upload service
+    implementation 'net.gotev:uploadservice:3.2.4'
+    implementation 'net.gotev:uploadservice-okhttp:3.2.4'
+
+    // Appsflyer
+    implementation 'com.appsflyer:af-android-sdk:4.8.6'
+    implementation 'com.android.installreferrer:installreferrer:1.0'
+
+
+    // zendesk sdk
+    implementation group: 'com.zendesk', name: 'support', version: '2.0.0'
+
+    implementation 'com.evernote:android-job:1.1.11'
+
+    // sectioned recycler view
+    implementation 'io.github.luizgrp.sectionedrecyclerviewadapter:sectionedrecyclerviewadapter:1.2.0'
+
+    // video trim
+    implementation 'com.googlecode.mp4parser:isoparser:1.1.22'
+
+    implementation 'com.crashlytics.sdk.android:crashlytics:2.9.3'
+
+    // Advertising
+    implementation('com.mopub:mopub-sdk:4.20.0@aar') {
+        transitive = true
+        exclude module: 'libAvid-mopub' // To exclude AVID
+        exclude module: 'moat-mobile-app-kit' // To exclude Moat
+        exclude group: 'com.google.android.exoplayer'
+    }
+    implementation ('com.facebook.android:audience-network-sdk:4.28.1') {
+        exclude group: 'com.google.android.gms'
+        exclude group: 'com.google.android.exoplayer'
+    }
+
+    // View Model
+    implementation "android.arch.lifecycle:extensions:$viewmodel_version"
+    annotationProcessor "android.arch.lifecycle:compiler:$viewmodel_version"
+
+    // Dependencies for local unit tests
+    testImplementation "org.mockito:mockito-all:$mockitoVersion"
+    testImplementation "org.hamcrest:hamcrest-all:$hamcrestVersion"
+}

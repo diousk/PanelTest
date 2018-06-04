@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorAccent">#FF4081</color>
+    <color name="soocii_background_color">#1C2429</color>
+    <color name="soocii_tab_background_color">#3C4851</color>
+    <color name="room_viewer_divid_line">#333C42</color>
+    <color name="white">#FFFFFF</color>
+    <color name="tab_selected">#0AED3D</color>
+    <color name="tab_unselected">#797979</color>
+</resources>
