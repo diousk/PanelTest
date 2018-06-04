@@ -2,7 +2,8 @@ package com.example.chenweiming.mypanelapplication;
 
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
+import android.support.design.widget.TabLayout;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -10,13 +11,31 @@ import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.example.chenweiming.mypanelapplication.model.GiftFactory;
+import com.example.chenweiming.mypanelapplication.model.GiftSection;
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 
+import java.util.List;
+import java.util.concurrent.Callable;
+import java.util.concurrent.TimeUnit;
+
+import io.reactivex.Observable;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.Consumer;
+import io.reactivex.schedulers.Schedulers;
+
 public class MainActivity extends AppCompatActivity {
+    private CompositeDisposable compositeDisposable;
+    private PagerAdapter pagerAdapter;
+    TabLayout tabLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        compositeDisposable = new CompositeDisposable();
+        pagerAdapter = new PagerAdapter(getSupportFragmentManager());
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -30,6 +49,8 @@ public class MainActivity extends AppCompatActivity {
                 toggle();
             }
         });
+
+        fetchGift();
     }
 
     @Override
@@ -55,6 +76,12 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        compositeDisposable.dispose();
+    }
+
+    @Override
     public void onBackPressed() {
         final SlidingUpPanelLayout panel = findViewById(R.id.sliding_layout);
         if (panel != null &&
@@ -63,6 +90,35 @@ public class MainActivity extends AppCompatActivity {
         } else {
             super.onBackPressed();
         }
+    }
+
+    private void fetchGift() {
+        Disposable disposable = Observable.fromCallable(new Callable<List<GiftSection>>() {
+            @Override
+            public List<GiftSection> call() throws Exception {
+                return GiftFactory.provideGiftSections(6);
+            }
+        }).subscribeOn(Schedulers.io()).delay(3, TimeUnit.SECONDS).observeOn(AndroidSchedulers.mainThread()).subscribe(new Consumer<List<GiftSection>>() {
+            @Override
+            public void accept(List<GiftSection> giftSections) throws Exception {
+                Log.d("Panel", "gift section size: " + giftSections.size());
+                if (giftSections.size() == 0) {
+                    return;
+                }
+
+                tabLayout.removeAllTabs();
+                for (GiftSection section : giftSections) {
+                    tabLayout.addTab(tabLayout.newTab().setText(section.categoryTitle));
+                }
+                pagerAdapter.setGiftSections(giftSections);
+            }
+        }, new Consumer<Throwable>() {
+            @Override
+            public void accept(Throwable throwable) throws Exception {
+
+            }
+        });
+        compositeDisposable.add(disposable);
     }
 
     private void setupPanel() {
@@ -86,6 +142,38 @@ public class MainActivity extends AppCompatActivity {
                 Log.d("Panel", "newState: " + newState);
             }
         });
+
+        View panelView = panel.getChildAt(1);
+        final ViewPager viewPager = panelView.findViewById(R.id.giftPager);
+
+        List<GiftSection> giftSections = GiftFactory.provideGiftSections(0);
+        pagerAdapter.setGiftSections(giftSections);
+
+        viewPager.setAdapter(pagerAdapter);
+        tabLayout = panelView.findViewById(R.id.tabLayout);
+        for (GiftSection section : giftSections) {
+            tabLayout.addTab(tabLayout.newTab().setText(section.categoryTitle));
+        }
+        viewPager.setOffscreenPageLimit(tabLayout.getTabCount());
+
+        viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
+
+        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+
+            }
+
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                viewPager.setCurrentItem(tab.getPosition());
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+
+            }
+        });
     }
 
     private void toggle() {
@@ -96,6 +184,5 @@ public class MainActivity extends AppCompatActivity {
         } else {
             panel.setPanelState(SlidingUpPanelLayout.PanelState.ANCHORED);
         }
-
     }
 }
