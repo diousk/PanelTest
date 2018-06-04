@@ -12,8 +12,7 @@
     sothree:umanoShadowHeight="3dp"
     sothree:umanoOverlay="true"
     sothree:umanoClipPanel="true"
-    sothree:umanoAnchorPoint="0.55"
-    sothree:umanoInitialState="anchored"
+    sothree:umanoInitialState="expanded"
     sothree:umanoFadeColor="@android:color/transparent"
     sothree:umanoDragView="@+id/dragView"
     sothree:umanoScrollableView="@+id/giftPager" >
@@ -81,8 +80,11 @@
         <android.support.v4.view.ViewPager
             android:id="@+id/giftPager"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:clipToPadding="false" />
+            android:layout_height="200dp" />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="HelloBottom"/>
 
     </LinearLayout>
 

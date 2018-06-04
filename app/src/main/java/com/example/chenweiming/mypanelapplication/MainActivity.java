@@ -13,7 +13,7 @@ import android.view.MenuItem;
 
 import com.example.chenweiming.mypanelapplication.model.GiftFactory;
 import com.example.chenweiming.mypanelapplication.model.GiftSection;
-import com.sothree.slidinguppanel.SlidingUpPanelLayout;
+import com.example.chenweiming.mypanelapplication.panel.SlidingUpPanelLayout;
 
 import java.util.List;
 import java.util.concurrent.Callable;
@@ -88,7 +88,7 @@ public class MainActivity extends AppCompatActivity {
                 (panel.getPanelState() == SlidingUpPanelLayout.PanelState.EXPANDED || panel.getPanelState() == SlidingUpPanelLayout.PanelState.ANCHORED)) {
             panel.setPanelState(SlidingUpPanelLayout.PanelState.HIDDEN);
         } else {
-            super.onBackPressed();
+            panel.setPanelState(SlidingUpPanelLayout.PanelState.EXPANDED);
         }
     }
 
@@ -206,7 +206,7 @@ public class MainActivity extends AppCompatActivity {
         if (panel.getPanelState() != SlidingUpPanelLayout.PanelState.HIDDEN) {
             panel.setPanelState(SlidingUpPanelLayout.PanelState.HIDDEN);
         } else {
-            panel.setPanelState(SlidingUpPanelLayout.PanelState.ANCHORED);
+            panel.setPanelState(SlidingUpPanelLayout.PanelState.EXPANDED);
         }
     }
 }
