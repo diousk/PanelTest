@@ -143,6 +143,8 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+//        panel.setTouchEnabled(false);
+
         View panelView = panel.getChildAt(1);
         final ViewPager viewPager = panelView.findViewById(R.id.giftPager);
 
@@ -154,10 +156,28 @@ public class MainActivity extends AppCompatActivity {
         for (GiftSection section : giftSections) {
             tabLayout.addTab(tabLayout.newTab().setText(section.categoryTitle));
         }
-        viewPager.setOffscreenPageLimit(tabLayout.getTabCount());
+        viewPager.setOffscreenPageLimit(5);
 
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
 
+        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                Log.d("Panel", "onPageSelected: " + position);
+                View scrollableView = pagerAdapter.getScrollableView();
+                panel.setScrollableView(scrollableView);
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabReselected(TabLayout.Tab tab) {
@@ -166,6 +186,10 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
+                Log.d("Panel", "onTabSelected");
+                //TODO: find and set scrollable view (recyclerview) here
+                View scrollableView = pagerAdapter.getScrollableView();
+                panel.setScrollableView(scrollableView);
                 viewPager.setCurrentItem(tab.getPosition());
             }
 

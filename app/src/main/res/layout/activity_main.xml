@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.sothree.slidinguppanel.SlidingUpPanelLayout
+<com.example.chenweiming.mypanelapplication.PanelLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -13,10 +13,10 @@
     sothree:umanoOverlay="true"
     sothree:umanoClipPanel="true"
     sothree:umanoAnchorPoint="0.55"
-    sothree:umanoInitialState="hidden"
+    sothree:umanoInitialState="anchored"
     sothree:umanoFadeColor="@android:color/transparent"
     sothree:umanoDragView="@+id/dragView"
-    sothree:umanoScrollableView="@+id/panel_content" >
+    sothree:umanoScrollableView="@+id/giftPager" >
 
     <FrameLayout
         android:layout_width="match_parent"
@@ -58,18 +58,33 @@
     </FrameLayout>
 
     <!-- SLIDING LAYOUT -->
-    <FrameLayout
-        android:id="@+id/dragView"
-        android:layout_marginTop="?android:attr/actionBarSize"
+    <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@android:color/white"
-        android:focusable="false"
-        android:clipChildren="false">
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="#AAAAAA">
 
-        <include layout="@layout/layout_panel_content"
-            android:id="@+id/panel_content"/>
-    </FrameLayout>
+        <android.support.design.widget.TabLayout
+            android:id="@+id/tabLayout"
+            style="@style/AppTab"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/tab_indicator_color"
+            app:tabIndicatorColor="@color/white"
+            app:tabIndicatorHeight="2dp"
+            app:tabMode="scrollable"
+            app:tabSelectedTextColor="@color/white"
+            app:tabTextColor="@color/tab_unselected"/>
 
-</com.sothree.slidinguppanel.SlidingUpPanelLayout>
+        <android.support.v4.view.ViewPager
+            android:id="@+id/giftPager"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:clipToPadding="false" />
+
+    </LinearLayout>
+
+</com.example.chenweiming.mypanelapplication.PanelLayout>
 

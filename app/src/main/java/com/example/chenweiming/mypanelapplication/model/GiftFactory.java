@@ -12,7 +12,7 @@ public class GiftFactory {
         for (int index = 0; index < numCatSize; index ++) {
             GiftSection category = new GiftSection();
             category.categoryTitle = "Cat" + index;
-            category.giftList = provideGifts(index+3);
+            category.giftList = provideGifts(index + (index+1)*10);
             categories.add(category);
         }
         return categories;
