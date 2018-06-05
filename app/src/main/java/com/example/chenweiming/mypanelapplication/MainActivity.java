@@ -13,7 +13,9 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.example.chenweiming.mypanelapplication.model.Gift;
 import com.example.chenweiming.mypanelapplication.model.GiftFactory;
 import com.example.chenweiming.mypanelapplication.model.GiftSection;
 import com.example.chenweiming.mypanelapplication.panel.SlidingUpPanelLayout;
@@ -133,7 +135,9 @@ public class MainActivity extends AppCompatActivity {
         tvDonate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Log.d("PANEL", "selected gift: " + pagerAdapter.getSelectedGift());
+                Gift gift = pagerAdapter.getSelectedGift();
+                Log.d("PANEL", "selected gift: " + gift);
+                Toast.makeText(view.getContext(), "select: " + gift.text, Toast.LENGTH_LONG).show();
             }
         });
 
