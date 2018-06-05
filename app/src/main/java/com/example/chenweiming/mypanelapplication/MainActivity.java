@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.example.chenweiming.mypanelapplication.model.GiftFactory;
 import com.example.chenweiming.mypanelapplication.model.GiftSection;
@@ -49,6 +50,8 @@ public class MainActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                final SlidingUpPanelLayout panel = findViewById(R.id.sliding_layout);
+                Log.d("Panel", "current state: " + panel.getPanelState());
                 toggle();
             }
         });
@@ -125,6 +128,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void setupPanel() {
         final SlidingUpPanelLayout panel = findViewById(R.id.sliding_layout);
+        final TextView tvBalance = findViewById(R.id.tv_balance);
         panel.setFadeOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -142,6 +146,11 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onPanelStateChanged(View panel, SlidingUpPanelLayout.PanelState previousState, SlidingUpPanelLayout.PanelState newState) {
                 Log.d("Panel", "newState: " + newState);
+                if (newState == SlidingUpPanelLayout.PanelState.HIDDEN) {
+                    tvBalance.setText("-");
+                } else if (newState == SlidingUpPanelLayout.PanelState.EXPANDED) {
+                    tvBalance.setText("1234");
+                }
             }
         });
 

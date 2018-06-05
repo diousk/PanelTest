@@ -8,11 +8,11 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:gravity="bottom"
-    sothree:umanoPanelHeight="0dp"
+    sothree:umanoPanelHeight="1dp"
     sothree:umanoShadowHeight="3dp"
     sothree:umanoOverlay="true"
     sothree:umanoClipPanel="true"
-    sothree:umanoInitialState="expanded"
+    sothree:umanoInitialState="hidden"
     sothree:umanoFadeColor="@android:color/transparent"
     sothree:umanoDragView="@+id/dragView"
     sothree:umanoScrollableView="@+id/giftPager" >
