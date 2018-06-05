@@ -8,7 +8,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:gravity="bottom"
-    sothree:umanoPanelHeight="52dp"
+    sothree:umanoPanelHeight="0dp"
     sothree:umanoShadowHeight="3dp"
     sothree:umanoOverlay="true"
     sothree:umanoClipPanel="true"
@@ -80,10 +80,11 @@
         <android.support.v4.view.ViewPager
             android:id="@+id/giftPager"
             android:layout_width="match_parent"
-            android:layout_height="200dp" />
+            android:layout_height="@dimen/panel_height" />
         <TextView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="40dp"
+            android:gravity="center_vertical"
             android:text="HelloBottom"/>
 
     </LinearLayout>

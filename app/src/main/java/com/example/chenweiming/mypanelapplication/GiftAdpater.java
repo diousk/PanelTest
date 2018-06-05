@@ -1,7 +1,9 @@
 package com.example.chenweiming.mypanelapplication;
 
+import android.content.res.Configuration;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
@@ -15,16 +17,20 @@ import java.util.List;
  */
 public class GiftAdpater extends RecyclerView.Adapter<GiftViewHolder> {
     private List<Gift> giftList;
+    private int orientation;
 
-    public GiftAdpater(List<Gift> gifts) {
+    public GiftAdpater(List<Gift> gifts, int orientation) {
         giftList = new ArrayList<>(gifts);
+        this.orientation = orientation;
     }
 
     @NonNull
     @Override
     public GiftViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-        GiftViewHolder viewHolder = new GiftViewHolder(inflater.inflate(R.layout.layout_gift_item, parent, false));
+        Log.d("Rv", "onCreateViewHolder ori: " + orientation);
+        int layoutResId = orientation == Configuration.ORIENTATION_PORTRAIT ? R.layout.layout_gift_item: R.layout.layout_gift_item_land;
+        GiftViewHolder viewHolder = new GiftViewHolder(inflater.inflate(layoutResId, parent, false));
         return viewHolder;
     }
 

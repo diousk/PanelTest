@@ -31,7 +31,6 @@ public class PagerAdapter extends FragmentStatePagerAdapter {
 
     @Override
     public Fragment getItem(int position) {
-        Log.d("Adapter", "position: " + position);
         GiftSection section = giftSections.get(position);
         return GiftSectionFragment.newInstance(section);
     }

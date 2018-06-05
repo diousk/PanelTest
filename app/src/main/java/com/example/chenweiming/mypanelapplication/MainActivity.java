@@ -1,5 +1,6 @@
 package com.example.chenweiming.mypanelapplication;
 
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
@@ -10,6 +11,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.ViewGroup;
 
 import com.example.chenweiming.mypanelapplication.model.GiftFactory;
 import com.example.chenweiming.mypanelapplication.model.GiftSection;
@@ -29,7 +31,8 @@ import io.reactivex.schedulers.Schedulers;
 public class MainActivity extends AppCompatActivity {
     private CompositeDisposable compositeDisposable;
     private PagerAdapter pagerAdapter;
-    TabLayout tabLayout;
+    private TabLayout tabLayout;
+    private int orientation;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,38 +57,37 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
-
-    @Override
     protected void onDestroy() {
         super.onDestroy();
         compositeDisposable.dispose();
     }
 
     @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        Log.d("Panel", "activity config change");
+        if (orientation != newConfig.orientation) {
+            orientation = newConfig.orientation;
+
+            final SlidingUpPanelLayout panel = findViewById(R.id.sliding_layout);
+            View panelView = panel.getChildAt(1);
+            final ViewPager viewPager = panelView.findViewById(R.id.giftPager);
+            ViewGroup.LayoutParams params = viewPager.getLayoutParams();
+            if (orientation == Configuration.ORIENTATION_PORTRAIT) {
+                params.height = (int) getResources().getDimension(R.dimen.panel_height);
+            } else {
+                params.height = (int) getResources().getDimension(R.dimen.panel_height_land);
+            }
+        }
+    }
+
+    @Override
     public void onBackPressed() {
         final SlidingUpPanelLayout panel = findViewById(R.id.sliding_layout);
-        if (panel != null &&
-                (panel.getPanelState() == SlidingUpPanelLayout.PanelState.EXPANDED || panel.getPanelState() == SlidingUpPanelLayout.PanelState.ANCHORED)) {
+        if (panel == null) {
+            return;
+        }
+        if ((panel.getPanelState() == SlidingUpPanelLayout.PanelState.EXPANDED || panel.getPanelState() == SlidingUpPanelLayout.PanelState.ANCHORED)) {
             panel.setPanelState(SlidingUpPanelLayout.PanelState.HIDDEN);
         } else {
             panel.setPanelState(SlidingUpPanelLayout.PanelState.EXPANDED);
@@ -98,7 +100,7 @@ public class MainActivity extends AppCompatActivity {
             public List<GiftSection> call() throws Exception {
                 return GiftFactory.provideGiftSections(6);
             }
-        }).subscribeOn(Schedulers.io()).delay(3, TimeUnit.SECONDS).observeOn(AndroidSchedulers.mainThread()).subscribe(new Consumer<List<GiftSection>>() {
+        }).subscribeOn(Schedulers.io()).delay(1, TimeUnit.SECONDS).observeOn(AndroidSchedulers.mainThread()).subscribe(new Consumer<List<GiftSection>>() {
             @Override
             public void accept(List<GiftSection> giftSections) throws Exception {
                 Log.d("Panel", "gift section size: " + giftSections.size());
@@ -143,7 +145,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-//        panel.setTouchEnabled(false);
+        panel.setTouchEnabled(false);
 
         View panelView = panel.getChildAt(1);
         final ViewPager viewPager = panelView.findViewById(R.id.giftPager);
@@ -203,7 +205,10 @@ public class MainActivity extends AppCompatActivity {
     private void toggle() {
         Log.d("Panel", "toggle");
         final SlidingUpPanelLayout panel = findViewById(R.id.sliding_layout);
-        if (panel.getPanelState() != SlidingUpPanelLayout.PanelState.HIDDEN) {
+        if (panel == null) {
+            return;
+        }
+        if ((panel.getPanelState() == SlidingUpPanelLayout.PanelState.EXPANDED || panel.getPanelState() == SlidingUpPanelLayout.PanelState.ANCHORED)) {
             panel.setPanelState(SlidingUpPanelLayout.PanelState.HIDDEN);
         } else {
             panel.setPanelState(SlidingUpPanelLayout.PanelState.EXPANDED);
