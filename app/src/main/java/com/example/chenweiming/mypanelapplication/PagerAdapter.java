@@ -6,6 +6,7 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.chenweiming.mypanelapplication.model.Gift;
 import com.example.chenweiming.mypanelapplication.model.GiftSection;
 
 import java.util.ArrayList;
@@ -48,10 +49,7 @@ public class PagerAdapter extends FragmentStatePagerAdapter {
         }
         currentPos = position;
 
-        // reset previous fragment selection
-        if (mCurrentFragment != null) {
-            mCurrentFragment.resetSelection();
-        }
+        resetSelection();
 
         if (mCurrentFragment != object) {
             mCurrentFragment = ((GiftSectionFragment) object);
@@ -59,11 +57,25 @@ public class PagerAdapter extends FragmentStatePagerAdapter {
         super.setPrimaryItem(container, position, object);
     }
 
+    public void resetSelection() {
+        // reset previous fragment selection
+        if (mCurrentFragment != null) {
+            mCurrentFragment.resetSelection();
+        }
+    }
+
     public View getScrollableView() {
         if (mCurrentFragment == null) {
             return null;
         }
         return mCurrentFragment.getScrollableView();
+    }
+
+    public Gift getSelectedGift() {
+        if (mCurrentFragment == null) {
+            return null;
+        }
+        return mCurrentFragment.getSelectedGift();
     }
 
     public void setGiftSections(List<GiftSection> data) {

@@ -23,6 +23,8 @@ public class GiftAdpater extends RecyclerView.Adapter<GiftAdpater.GiftViewHolder
     private int orientation;
 
     private int selectedPos = RecyclerView.NO_POSITION;
+    private Gift selectedGift;
+
     public GiftAdpater(List<Gift> gifts, int orientation) {
         giftList = new ArrayList<>(gifts);
         this.orientation = orientation;
@@ -32,7 +34,6 @@ public class GiftAdpater extends RecyclerView.Adapter<GiftAdpater.GiftViewHolder
     @Override
     public GiftViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-        Log.d("Rv", "onCreateViewHolder ori: " + orientation);
         int layoutResId = orientation == Configuration.ORIENTATION_PORTRAIT ? R.layout.layout_gift_item: R.layout.layout_gift_item_land;
         return new GiftViewHolder(inflater.inflate(layoutResId, parent, false));
     }
@@ -53,10 +54,15 @@ public class GiftAdpater extends RecyclerView.Adapter<GiftAdpater.GiftViewHolder
             // do nothing if never selected
             return;
         }
+        selectedGift = null;
 
         int prevSelectedPos = selectedPos;
         selectedPos = RecyclerView.NO_POSITION;
         notifyItemChanged(prevSelectedPos);
+    }
+
+    public Gift getSelectedGift() {
+        return selectedGift;
     }
 
     public class GiftViewHolder extends RecyclerView.ViewHolder {
@@ -69,7 +75,7 @@ public class GiftAdpater extends RecyclerView.Adapter<GiftAdpater.GiftViewHolder
             textView = (TextView) itemView.findViewById(R.id.gift_title);
         }
 
-        public void bindView(Gift gift) {
+        public void bindView(final Gift gift) {
             itemView.setSelected(selectedPos == getLayoutPosition());
 
             FrescoHelper.loadInto(gift.iconUrl, simpleDraweeView);
@@ -79,6 +85,7 @@ public class GiftAdpater extends RecyclerView.Adapter<GiftAdpater.GiftViewHolder
                 public void onClick(View view) {
                     notifyItemChanged(selectedPos);
                     selectedPos = getLayoutPosition();
+                    selectedGift = gift;
                     notifyItemChanged(selectedPos);
                 }
             });

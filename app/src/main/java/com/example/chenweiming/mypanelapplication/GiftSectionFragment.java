@@ -15,6 +15,7 @@ import android.view.OrientationEventListener;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.chenweiming.mypanelapplication.model.Gift;
 import com.example.chenweiming.mypanelapplication.model.GiftSection;
 
 /**
@@ -67,6 +68,14 @@ public class GiftSectionFragment extends Fragment {
         if (giftAdpater != null) {
             giftAdpater.resetSelection();
         }
+    }
+
+    public Gift getSelectedGift() {
+        Gift gift = null;
+        if (giftAdpater != null) {
+            gift = giftAdpater.getSelectedGift();
+        }
+        return gift;
     }
 
     private void onOrientationChanged(int orientation) {

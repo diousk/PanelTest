@@ -129,6 +129,14 @@ public class MainActivity extends AppCompatActivity {
     private void setupPanel() {
         final SlidingUpPanelLayout panel = findViewById(R.id.sliding_layout);
         final TextView tvBalance = findViewById(R.id.tv_balance);
+        final TextView tvDonate = findViewById(R.id.tv_donate);
+        tvDonate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Log.d("PANEL", "selected gift: " + pagerAdapter.getSelectedGift());
+            }
+        });
+
         panel.setFadeOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -147,6 +155,7 @@ public class MainActivity extends AppCompatActivity {
             public void onPanelStateChanged(View panel, SlidingUpPanelLayout.PanelState previousState, SlidingUpPanelLayout.PanelState newState) {
                 Log.d("Panel", "newState: " + newState);
                 if (newState == SlidingUpPanelLayout.PanelState.HIDDEN) {
+                    pagerAdapter.resetSelection();
                     tvBalance.setText("-");
                 } else if (newState == SlidingUpPanelLayout.PanelState.EXPANDED) {
                     tvBalance.setText("1234");

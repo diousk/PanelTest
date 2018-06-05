@@ -13,6 +13,14 @@ public class Gift implements Parcelable{
     public Gift() {
     }
 
+    @Override
+    public String toString() {
+        return "Gift{" +
+                "iconUrl='" + iconUrl + '\'' +
+                ", text='" + text + '\'' +
+                '}';
+    }
+
     protected Gift(Parcel in) {
         iconUrl = in.readString();
         text = in.readString();
