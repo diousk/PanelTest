@@ -3,7 +3,6 @@ package com.example.chenweiming.mypanelapplication;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -18,6 +17,7 @@ import java.util.List;
 public class PagerAdapter extends FragmentStatePagerAdapter {
     private List<GiftSection> giftSections;
     private GiftSectionFragment mCurrentFragment;
+    private int currentPos = PagerAdapter.POSITION_NONE;
 
     public PagerAdapter(FragmentManager fragmentManager) {
         super(fragmentManager);
@@ -37,6 +37,22 @@ public class PagerAdapter extends FragmentStatePagerAdapter {
 
     @Override
     public void setPrimaryItem(ViewGroup container, int position, Object object) {
+        if (!(object instanceof GiftSectionFragment)) {
+            super.setPrimaryItem(container, position, object);
+            return;
+        }
+
+        if (currentPos == position) {
+            super.setPrimaryItem(container, position, object);
+            return;
+        }
+        currentPos = position;
+
+        // reset previous fragment selection
+        if (mCurrentFragment != null) {
+            mCurrentFragment.resetSelection();
+        }
+
         if (mCurrentFragment != object) {
             mCurrentFragment = ((GiftSectionFragment) object);
         }

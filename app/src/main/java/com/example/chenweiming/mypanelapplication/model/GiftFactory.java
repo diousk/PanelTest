@@ -23,10 +23,10 @@ public class GiftFactory {
         for (int index = 0; index < numSize; index ++) {
             Gift gift = new Gift();
 
-            switch (index % 4) {
+            switch (index % 6) {
                 case 0: {
-                    gift.iconUrl = "https://png.icons8.com/ios/2x/power-over-ethernet-filled.png";
-                    gift.text = "stop";
+                    gift.iconUrl = "https://png.icons8.com/cotton/2x/-takeaway-hot-drink.png";
+                    gift.text = "drink";
                     break;
                 }
                 case 1: {
@@ -42,6 +42,16 @@ public class GiftFactory {
                 case 3: {
                     gift.iconUrl = "https://png.icons8.com/doodle/2x/air-raider.png";
                     gift.text = "bomb";
+                    break;
+                }
+                case 4: {
+                    gift.iconUrl = "https://png.icons8.com/cotton/2x/pacman.png";
+                    gift.text = "pacman";
+                    break;
+                }
+                case 5: {
+                    gift.iconUrl = "https://png.icons8.com/cotton/2x/dressed-fish.png";
+                    gift.text = "fish";
                     break;
                 }
             }

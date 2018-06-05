@@ -57,37 +57,7 @@
     </FrameLayout>
 
     <!-- SLIDING LAYOUT -->
-    <LinearLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:background="#AAAAAA">
-
-        <android.support.design.widget.TabLayout
-            android:id="@+id/tabLayout"
-            style="@style/AppTab"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/tab_indicator_color"
-            app:tabIndicatorColor="@color/white"
-            app:tabIndicatorHeight="2dp"
-            app:tabMode="scrollable"
-            app:tabSelectedTextColor="@color/white"
-            app:tabTextColor="@color/tab_unselected"/>
-
-        <android.support.v4.view.ViewPager
-            android:id="@+id/giftPager"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/panel_height" />
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:gravity="center_vertical"
-            android:text="HelloBottom"/>
-
-    </LinearLayout>
+    <include layout="@layout/layout_panel_content"/>
 
 </com.example.chenweiming.mypanelapplication.PanelLayout>
 

@@ -20,7 +20,7 @@
     <style name="AppTab" parent="Widget.Design.TabLayout">
         <item name="android:theme">@style/ThemeOverlay.AppCompat.ActionBar</item>
         <item name="android:minHeight">?attr/actionBarSize</item>
-        <item name="tabIndicatorHeight">2dp</item>
+        <item name="tabIndicatorHeight">1dp</item>
         <item name="tabSelectedTextColor">@color/white</item>
         <item name="tabTextColor">@color/white</item>
     </style>

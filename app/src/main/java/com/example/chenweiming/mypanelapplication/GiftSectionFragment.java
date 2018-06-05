@@ -63,6 +63,12 @@ public class GiftSectionFragment extends Fragment {
         }
     }
 
+    public void resetSelection() {
+        if (giftAdpater != null) {
+            giftAdpater.resetSelection();
+        }
+    }
+
     private void onOrientationChanged(int orientation) {
         rvGifts.setAdapter(null);
         if (orientation == Configuration.ORIENTATION_PORTRAIT) {
