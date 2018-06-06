@@ -3,6 +3,7 @@ package com.example.chenweiming.mypanelapplication;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -38,6 +39,7 @@ public class PagerAdapter extends FragmentStatePagerAdapter {
 
     @Override
     public void setPrimaryItem(ViewGroup container, int position, Object object) {
+        Log.d("Pager", "setPrimaryItem: " + position);
         if (!(object instanceof GiftSectionFragment)) {
             super.setPrimaryItem(container, position, object);
             return;
@@ -54,6 +56,7 @@ public class PagerAdapter extends FragmentStatePagerAdapter {
         if (mCurrentFragment != object) {
             mCurrentFragment = ((GiftSectionFragment) object);
         }
+        mCurrentFragment.selectDefault();
         super.setPrimaryItem(container, position, object);
     }
 

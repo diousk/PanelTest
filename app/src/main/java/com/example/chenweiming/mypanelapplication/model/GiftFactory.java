@@ -2,6 +2,7 @@ package com.example.chenweiming.mypanelapplication.model;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 /**
  * Created by david.chen@soocii.me on 2018/6/4.
@@ -22,6 +23,9 @@ public class GiftFactory {
         List<Gift> gifts = new ArrayList<>();
         for (int index = 0; index < numSize; index ++) {
             Gift gift = new Gift();
+
+            Random random = new Random();
+            gift.price = String.valueOf(random.nextInt(20)*10);
 
             switch (index % 6) {
                 case 0: {

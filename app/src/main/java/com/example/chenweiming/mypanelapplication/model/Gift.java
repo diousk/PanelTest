@@ -9,6 +9,7 @@ import android.os.Parcelable;
 public class Gift implements Parcelable{
     public String iconUrl;
     public String text;
+    public String price;
 
     public Gift() {
     }
@@ -18,12 +19,14 @@ public class Gift implements Parcelable{
         return "Gift{" +
                 "iconUrl='" + iconUrl + '\'' +
                 ", text='" + text + '\'' +
+                ", price='" + price + '\'' +
                 '}';
     }
 
     protected Gift(Parcel in) {
         iconUrl = in.readString();
         text = in.readString();
+        price = in.readString();
     }
 
     @Override
@@ -35,6 +38,7 @@ public class Gift implements Parcelable{
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(iconUrl);
         dest.writeString(text);
+        dest.writeString(price);
     }
 
     @SuppressWarnings("unused")

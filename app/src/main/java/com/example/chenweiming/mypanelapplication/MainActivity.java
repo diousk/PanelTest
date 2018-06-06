@@ -137,8 +137,9 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Gift gift = pagerAdapter.getSelectedGift();
                 Log.d("PANEL", "selected gift: " + gift);
-                Toast.makeText(view.getContext(), "select: " + gift.text, Toast.LENGTH_LONG).show();
-                pagerAdapter.resetSelection();
+
+                String text = gift == null ? "null" : gift.text;
+                Toast.makeText(view.getContext(), "select: " + text, Toast.LENGTH_LONG).show();
             }
         });
 
@@ -160,7 +161,6 @@ public class MainActivity extends AppCompatActivity {
             public void onPanelStateChanged(View panel, SlidingUpPanelLayout.PanelState previousState, SlidingUpPanelLayout.PanelState newState) {
                 Log.d("Panel", "newState: " + newState);
                 if (newState == SlidingUpPanelLayout.PanelState.HIDDEN) {
-                    pagerAdapter.resetSelection();
                     tvBalance.setText("-");
                 } else if (newState == SlidingUpPanelLayout.PanelState.EXPANDED) {
                     tvBalance.setText("1234");
@@ -181,7 +181,7 @@ public class MainActivity extends AppCompatActivity {
         for (GiftSection section : giftSections) {
             tabLayout.addTab(tabLayout.newTab().setText(section.categoryTitle));
         }
-        viewPager.setOffscreenPageLimit(5);
+        viewPager.setOffscreenPageLimit(2);
 
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
 

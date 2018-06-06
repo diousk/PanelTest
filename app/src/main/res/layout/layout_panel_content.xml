@@ -9,7 +9,6 @@
 
     <android.support.design.widget.TabLayout
         android:id="@+id/tabLayout"
-        style="@style/AppTab"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:tabIndicatorColor="@color/white"
@@ -36,7 +35,7 @@
             android:layout_height="match_parent"
             android:textColor="@color/white"
             android:drawablePadding="4dp"
-            android:drawableLeft="@drawable/soocii_point"
+            android:drawableStart="@drawable/soocii_point"
             android:gravity="center_vertical"
             android:text="1024"/>
 
@@ -45,7 +44,7 @@
             android:padding="10dp"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:background="#17B23A"
+            android:background="@drawable/layout_donate_selector"
             android:textColor="@color/white"
             android:text="Donate"/>
     </LinearLayout>

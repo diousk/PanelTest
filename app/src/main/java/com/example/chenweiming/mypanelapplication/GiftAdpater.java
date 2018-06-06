@@ -25,9 +25,13 @@ public class GiftAdpater extends RecyclerView.Adapter<GiftAdpater.GiftViewHolder
     private int selectedPos = RecyclerView.NO_POSITION;
     private Gift selectedGift;
 
-    public GiftAdpater(List<Gift> gifts, int orientation) {
+    public GiftAdpater(List<Gift> gifts, int orientation, boolean setDefault) {
         giftList = new ArrayList<>(gifts);
         this.orientation = orientation;
+
+        if (setDefault) {
+            selectDefault();
+        }
     }
 
     @NonNull
@@ -46,6 +50,15 @@ public class GiftAdpater extends RecyclerView.Adapter<GiftAdpater.GiftViewHolder
     @Override
     public int getItemCount() {
         return giftList.size();
+    }
+
+    public void selectDefault() {
+        Log.d("Gift", "selectDefault prevSelectedPos: " + selectedPos);
+        if (giftList.size() > 0) {
+            selectedPos = 0;
+            selectedGift = giftList.get(0);
+            notifyItemChanged(selectedPos);
+        }
     }
 
     public void resetSelection() {
@@ -67,19 +80,22 @@ public class GiftAdpater extends RecyclerView.Adapter<GiftAdpater.GiftViewHolder
 
     public class GiftViewHolder extends RecyclerView.ViewHolder {
         private SimpleDraweeView simpleDraweeView;
-        private TextView textView;
+        private TextView title;
+        private TextView price;
 
         public GiftViewHolder(View itemView) {
             super(itemView);
             simpleDraweeView = (SimpleDraweeView) itemView.findViewById(R.id.gift_icon);
-            textView = (TextView) itemView.findViewById(R.id.gift_title);
+            title = (TextView) itemView.findViewById(R.id.gift_title);
+            price = (TextView) itemView.findViewById(R.id.gift_price);
         }
 
         public void bindView(final Gift gift) {
             itemView.setSelected(selectedPos == getLayoutPosition());
 
             FrescoHelper.loadInto(gift.iconUrl, simpleDraweeView);
-            textView.setText(gift.text);
+            title.setText(gift.text);
+            price.setText(gift.price);
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {

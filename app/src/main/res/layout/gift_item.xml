@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:fresco="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <com.facebook.drawee.view.SimpleDraweeView
+        android:id="@+id/gift_icon"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        fresco:roundAsCircle="true"
+        fresco:failureImageScaleType="centerCrop" />
+
+    <TextView
+        android:id="@+id/gift_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/white"
+        android:textSize="12sp"
+        tools:text="Title"/>
+
+    <TextView
+        android:id="@+id/gift_price"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/white"
+        android:textSize="12sp"
+        android:drawablePadding="2dp"
+        android:drawableStart="@drawable/soocii_point"
+        tools:text="120"/>
+
+</merge>

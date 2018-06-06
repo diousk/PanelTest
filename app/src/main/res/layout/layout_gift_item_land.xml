@@ -2,22 +2,12 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="80dp"
     android:layout_height="wrap_content"
-    xmlns:fresco="http://schemas.android.com/apk/res-auto"
+    android:paddingTop="8dp"
+    android:paddingBottom="8dp"
     android:background="@drawable/layout_gift_selector"
     android:orientation="vertical"
     android:gravity="center_horizontal">
 
-    <com.facebook.drawee.view.SimpleDraweeView
-        android:id="@+id/gift_icon"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        fresco:roundAsCircle="true"
-        fresco:failureImageScaleType="centerCrop" />
-
-    <TextView
-        android:id="@+id/gift_title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textColor="@color/white"/>
+    <include layout="@layout/gift_item"/>
 
 </LinearLayout>

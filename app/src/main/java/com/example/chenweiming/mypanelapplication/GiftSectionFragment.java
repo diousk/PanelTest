@@ -27,6 +27,7 @@ public class GiftSectionFragment extends Fragment {
     private GiftAdpater giftAdpater;
     private int orientation;
     private GiftSection giftSection;
+    private boolean setDefault = false;
 
     public static GiftSectionFragment newInstance(GiftSection section) {
         GiftSectionFragment fragment = new GiftSectionFragment();
@@ -65,8 +66,16 @@ public class GiftSectionFragment extends Fragment {
     }
 
     public void resetSelection() {
+        setDefault = false;
         if (giftAdpater != null) {
             giftAdpater.resetSelection();
+        }
+    }
+
+    public void selectDefault() {
+        setDefault = true;
+        if (giftAdpater != null) {
+            giftAdpater.selectDefault();
         }
     }
 
@@ -85,7 +94,8 @@ public class GiftSectionFragment extends Fragment {
         } else {
             rvGifts.setLayoutManager(new LinearLayoutManager(getContext(), RecyclerView.HORIZONTAL, false));
         }
-        giftAdpater = new GiftAdpater(giftSection.giftList, orientation);
+
+        giftAdpater = new GiftAdpater(giftSection.giftList, orientation, setDefault);
         rvGifts.setAdapter(giftAdpater);
     }
 }
