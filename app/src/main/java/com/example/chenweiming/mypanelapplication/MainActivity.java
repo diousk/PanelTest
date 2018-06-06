@@ -138,6 +138,7 @@ public class MainActivity extends AppCompatActivity {
                 Gift gift = pagerAdapter.getSelectedGift();
                 Log.d("PANEL", "selected gift: " + gift);
                 Toast.makeText(view.getContext(), "select: " + gift.text, Toast.LENGTH_LONG).show();
+                pagerAdapter.resetSelection();
             }
         });
 
