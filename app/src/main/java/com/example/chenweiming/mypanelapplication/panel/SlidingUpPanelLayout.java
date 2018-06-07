@@ -22,7 +22,7 @@ import android.view.accessibility.AccessibilityEvent;
 import android.view.animation.AnimationUtils;
 import android.view.animation.Interpolator;
 
-import com.sothree.slidinguppanel.library.R;
+import com.example.chenweiming.mypanelapplication.R;
 
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
@@ -891,11 +891,6 @@ public class SlidingUpPanelLayout extends ViewGroup {
 
         // If the scrollable view is handling touch, never intercept
         if (mIsScrollableViewHandlingTouch || !isTouchEnabled()) {
-            if (mFadeOnClickListener == null) {
-                mDragHelper.abort();
-                return false;
-            }
-
             if (action == MotionEvent.ACTION_DOWN) {
                 mInitialMotionX = x;
                 mInitialMotionY = y;
@@ -903,11 +898,11 @@ public class SlidingUpPanelLayout extends ViewGroup {
                 if (ady <= dragSlop
                         && adx <= dragSlop
                         && mSlideOffset > 0 && !isViewUnder(mSlideableView, (int) mInitialMotionX, (int) mInitialMotionY)) {
-                    mFadeOnClickListener.onClick(this);
+                    setPanelState(PanelState.HIDDEN);
                     return true;
                 }
             }
-            mDragHelper.abort();
+//            mDragHelper.abort();
             return false;
         }
 
@@ -976,7 +971,7 @@ public class SlidingUpPanelLayout extends ViewGroup {
         final int action = MotionEventCompat.getActionMasked(ev);
 
         if (!isEnabled() || !isTouchEnabled() || (mIsUnableToDrag && action != MotionEvent.ACTION_DOWN)) {
-            mDragHelper.abort();
+//            mDragHelper.abort();
             return super.dispatchTouchEvent(ev);
         }
 

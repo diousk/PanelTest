@@ -36,6 +36,8 @@ public class MainActivity extends AppCompatActivity {
     private PagerAdapter pagerAdapter;
     private TabLayout tabLayout;
     private int orientation;
+    private Disposable giftDisposable;
+    private BounceBallsLoading loadingView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,7 +60,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        fetchGift();
     }
 
     @Override
@@ -100,15 +101,16 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void fetchGift() {
-        Disposable disposable = Observable.fromCallable(new Callable<List<GiftSection>>() {
+        giftDisposable = Observable.fromCallable(new Callable<List<GiftSection>>() {
             @Override
             public List<GiftSection> call() throws Exception {
                 return GiftFactory.provideGiftSections(6);
             }
-        }).subscribeOn(Schedulers.io()).delay(1, TimeUnit.SECONDS).observeOn(AndroidSchedulers.mainThread()).subscribe(new Consumer<List<GiftSection>>() {
+        }).subscribeOn(Schedulers.io()).delay(2000, TimeUnit.MILLISECONDS).observeOn(AndroidSchedulers.mainThread()).subscribe(new Consumer<List<GiftSection>>() {
             @Override
             public void accept(List<GiftSection> giftSections) throws Exception {
                 Log.d("Panel", "gift section size: " + giftSections.size());
+                loadingView.cancel();
                 if (giftSections.size() == 0) {
                     return;
                 }
@@ -125,11 +127,11 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
-        compositeDisposable.add(disposable);
     }
 
     private void setupPanel() {
         final SlidingUpPanelLayout panel = findViewById(R.id.sliding_layout);
+        loadingView = findViewById(R.id.loading_view);
         final TextView tvBalance = findViewById(R.id.tv_balance);
         final TextView tvDonate = findViewById(R.id.tv_donate);
         tvDonate.setOnClickListener(new View.OnClickListener() {
@@ -143,14 +145,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        panel.setFadeOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Log.d("PANEL", "click");
-                panel.setPanelState(SlidingUpPanelLayout.PanelState.HIDDEN);
-            }
-        });
-
         panel.addPanelSlideListener(new SlidingUpPanelLayout.PanelSlideListener() {
             @Override
             public void onPanelSlide(View panel, float slideOffset) {
@@ -160,10 +154,20 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onPanelStateChanged(View panel, SlidingUpPanelLayout.PanelState previousState, SlidingUpPanelLayout.PanelState newState) {
                 Log.d("Panel", "newState: " + newState);
+                if (newState == SlidingUpPanelLayout.PanelState.HIDDEN || newState == SlidingUpPanelLayout.PanelState.DRAGGING) {
+                    if (giftDisposable != null && !giftDisposable.isDisposed()) {
+                        giftDisposable.dispose();
+                    }
+                }
                 if (newState == SlidingUpPanelLayout.PanelState.HIDDEN) {
+                    loadingView.cancel();
+                    tabLayout.removeAllTabs();
+                    pagerAdapter.clear();
                     tvBalance.setText("-");
                 } else if (newState == SlidingUpPanelLayout.PanelState.EXPANDED) {
+                    loadingView.start();
                     tvBalance.setText("1234");
+                    fetchGift();
                 }
             }
         });
@@ -171,38 +175,11 @@ public class MainActivity extends AppCompatActivity {
         panel.setTouchEnabled(false);
 
         View panelView = panel.getChildAt(1);
-        final ViewPager viewPager = panelView.findViewById(R.id.giftPager);
-
-        List<GiftSection> giftSections = GiftFactory.provideGiftSections(0);
-        pagerAdapter.setGiftSections(giftSections);
-
-        viewPager.setAdapter(pagerAdapter);
         tabLayout = panelView.findViewById(R.id.tabLayout);
-        for (GiftSection section : giftSections) {
-            tabLayout.addTab(tabLayout.newTab().setText(section.categoryTitle));
-        }
+        final ViewPager viewPager = panelView.findViewById(R.id.giftPager);
+        viewPager.setAdapter(pagerAdapter);
         viewPager.setOffscreenPageLimit(2);
-
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
-
-        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-            @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
-            }
-
-            @Override
-            public void onPageSelected(int position) {
-                Log.d("Panel", "onPageSelected: " + position);
-                View scrollableView = pagerAdapter.getScrollableView();
-                panel.setScrollableView(scrollableView);
-            }
-
-            @Override
-            public void onPageScrollStateChanged(int state) {
-
-            }
-        });
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabReselected(TabLayout.Tab tab) {
@@ -212,9 +189,6 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 Log.d("Panel", "onTabSelected");
-                //TODO: find and set scrollable view (recyclerview) here
-                View scrollableView = pagerAdapter.getScrollableView();
-                panel.setScrollableView(scrollableView);
                 viewPager.setCurrentItem(tab.getPosition());
             }
 

@@ -21,4 +21,14 @@
         <attr name="umanoScrollInterpolator" format="reference" />
     </declare-styleable>
 
+
+    <declare-styleable name="BounceBallsLoading">
+        <attr name="circleMax" format="dimension"/>
+        <attr name="circleMin" format="dimension"/>
+        <attr name="color" format="color"/>
+        <attr name="animDurationMs" format="integer"/>
+        <attr name="ballNumber" format="integer"/>
+        <attr name="ballGap" format="dimension"/>
+        <attr name="animDelayMs" format="integer"/>
+    </declare-styleable>
 </resources>

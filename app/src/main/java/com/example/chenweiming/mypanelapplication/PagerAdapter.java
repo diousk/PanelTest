@@ -1,5 +1,6 @@
 package com.example.chenweiming.mypanelapplication;
 
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
@@ -28,18 +29,18 @@ public class PagerAdapter extends FragmentStatePagerAdapter {
 
     @Override
     public int getCount() {
-        return giftSections == null ? 0 : giftSections.size();
+        return giftSections.size();
     }
 
     @Override
     public Fragment getItem(int position) {
         GiftSection section = giftSections.get(position);
-        return GiftSectionFragment.newInstance(section);
+        return GiftSectionFragment.newInstance(section, position);
     }
 
     @Override
     public void setPrimaryItem(ViewGroup container, int position, Object object) {
-        Log.d("Pager", "setPrimaryItem: " + position);
+        Log.d("Pager", "setPrimaryItem: " + position + " current pos: " + currentPos);
         if (!(object instanceof GiftSectionFragment)) {
             super.setPrimaryItem(container, position, object);
             return;
@@ -60,6 +61,15 @@ public class PagerAdapter extends FragmentStatePagerAdapter {
         super.setPrimaryItem(container, position, object);
     }
 
+    @Override
+    public int getItemPosition(@NonNull Object object) {
+        if (giftSections.size() == 0) {
+            // reset the view pager
+            return android.support.v4.view.PagerAdapter.POSITION_NONE;
+        }
+        return super.getItemPosition(object);
+    }
+
     public void resetSelection() {
         // reset previous fragment selection
         if (mCurrentFragment != null) {
@@ -67,18 +77,18 @@ public class PagerAdapter extends FragmentStatePagerAdapter {
         }
     }
 
-    public View getScrollableView() {
-        if (mCurrentFragment == null) {
-            return null;
-        }
-        return mCurrentFragment.getScrollableView();
-    }
-
     public Gift getSelectedGift() {
         if (mCurrentFragment == null) {
             return null;
         }
         return mCurrentFragment.getSelectedGift();
+    }
+
+    public void clear() {
+        currentPos = android.support.v4.view.PagerAdapter.POSITION_NONE;
+        mCurrentFragment = null;
+        giftSections.clear();
+        notifyDataSetChanged();
     }
 
     public void setGiftSections(List<GiftSection> data) {

@@ -23,22 +23,21 @@ import com.example.chenweiming.mypanelapplication.model.GiftSection;
  */
 public class GiftSectionFragment extends Fragment {
     private static final String KEY_DATA = "key_data";
+    private static final String KEY_INDEX = "key_index";
     private RecyclerView rvGifts;
     private GiftAdpater giftAdpater;
     private int orientation;
     private GiftSection giftSection;
+    private int tabIndex;
     private boolean setDefault = false;
 
-    public static GiftSectionFragment newInstance(GiftSection section) {
+    public static GiftSectionFragment newInstance(GiftSection section, int position) {
         GiftSectionFragment fragment = new GiftSectionFragment();
         Bundle extra = new Bundle();
         extra.putParcelable(KEY_DATA, section);
+        extra.putInt(KEY_INDEX, position);
         fragment.setArguments(extra);
         return fragment;
-    }
-
-    public View getScrollableView() {
-        return rvGifts;
     }
 
     @Nullable
@@ -53,6 +52,7 @@ public class GiftSectionFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         giftSection = getArguments().getParcelable(KEY_DATA);
+        tabIndex = getArguments().getInt(KEY_INDEX);
         onOrientationChanged(orientation);
     }
 
@@ -73,6 +73,7 @@ public class GiftSectionFragment extends Fragment {
     }
 
     public void selectDefault() {
+        Log.d("Section","tabIndex: " + tabIndex);
         setDefault = true;
         if (giftAdpater != null) {
             giftAdpater.selectDefault();
